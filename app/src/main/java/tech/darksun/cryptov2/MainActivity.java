@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private ListView lv;
 
-    private static String url = "https://api.coinmarketcap.com/v1/ticker/?limit=5";
+    private static String url = "https://api.coinmarketcap.com/v1/ticker/";
 
     ArrayList<HashMap<String, String>> bitcoinList;
 
@@ -35,14 +35,13 @@ public class MainActivity extends AppCompatActivity {
 
         bitcoinList = new ArrayList<>();
 
-        lv = (ListView) findViewById(R.id.list);
+        lv = findViewById(R.id.list);
 
         new GetContacts().execute();
     }
 
-    /**
-     * Async task class to get json by making HTTP call
-     */
+     // Async task class to get json by making HTTP call
+
     private class GetContacts extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -66,23 +65,20 @@ public class MainActivity extends AppCompatActivity {
 
             if (jsonStr != null) {
                 try {
-                    JSONObject jsonObj = new JSONObject(jsonStr);
-
-                    // Getting JSON Array node
-                    JSONArray coins = jsonObj.getJSONArray("");
+                    JSONArray jsonArray = new JSONArray(jsonStr);
 
                     // looping through All Coins
-                    for (int i = 0; i < coins.length(); i++) {
-                        JSONObject c = coins.getJSONObject(i);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject c = jsonArray.getJSONObject(i);
 
-                        String id = c.getString("id");
+                        String name = c.getString("name");
                         String symbol = c.getString("symbol");
 
                         // tmp hash map for single contact
                         HashMap<String, String> coin = new HashMap<>();
 
                         // adding each child node to HashMap key => value
-                        coin.put("id", id);
+                        coin.put("name", name);
                         coin.put("symbol", symbol);
 
                         // adding contact to contact list
@@ -121,9 +117,9 @@ public class MainActivity extends AppCompatActivity {
             // Dismiss the progress dialog
             if (pDialog.isShowing())
                 pDialog.dismiss();
-            /**
-             * Updating parsed JSON data into ListView
-             **/
+
+            // Updating parsed JSON data into ListView
+
             ListAdapter adapter = new SimpleAdapter(
                     MainActivity.this, bitcoinList,
                     R.layout.list_item, new String[]{"name", "symbol"},
