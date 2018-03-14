@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private ListView lv;
 
-    private static String url = "https://api.coinmarketcap.com/v1/ticker/";
+    private static String url = Constants.API_LOCATION + Constants.API_VERSION +"/ticker/";
 
     ArrayList<HashMap<String, String>> bitcoinList;
 
@@ -73,13 +73,15 @@ public class MainActivity extends AppCompatActivity {
 
                         String name = c.getString("name");
                         String symbol = c.getString("symbol");
+                        String price = c.getString("price_usd");
 
-                        // tmp hash map for single contact
+                        // tmp hash map for single coin
                         HashMap<String, String> coin = new HashMap<>();
 
                         // adding each child node to HashMap key => value
                         coin.put("name", name);
                         coin.put("symbol", symbol);
+                        coin.put("price_usd", price);
 
                         // adding contact to contact list
                         bitcoinList.add(coin);
@@ -122,8 +124,8 @@ public class MainActivity extends AppCompatActivity {
 
             ListAdapter adapter = new SimpleAdapter(
                     MainActivity.this, bitcoinList,
-                    R.layout.list_item, new String[]{"name", "symbol"},
-                    new int[]{R.id.name, R.id.symbol});
+                    R.layout.list_item, new String[]{"name", "symbol", "price_usd"},
+                    new int[]{R.id.name, R.id.symbol, R.id.price});
 
             lv.setAdapter(adapter);
         }
