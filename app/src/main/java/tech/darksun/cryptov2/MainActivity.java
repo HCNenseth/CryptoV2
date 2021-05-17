@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private ListView lv;
 
+    private static String apiKey = "bf6b0819-9ded-4c77-8500-c21d0e16c520";
+    
     private static String url = Constants.API_LOCATION + Constants.API_VERSION +"/ticker/";
 
     ArrayList<HashMap<String, String>> bitcoinList;
